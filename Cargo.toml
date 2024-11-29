@@ -1,0 +1,13 @@
+[package]
+name = "nmap-farewell"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+log = "0.4.22"
+pretty_env_logger = "0.5.0"
+anyhow = "1.0.93"
+nfq = "0.2.5"
+pnet = "0.35.0"
+rustables = "0.8.5"
+libc = "0.2.166"
