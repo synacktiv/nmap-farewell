@@ -185,8 +185,8 @@ fn unban_thread(
 
         let now = Instant::now();
 
-        let mut clients = suspicious_clients.lock().expect("unable to acquire mutex");
-        let clients_to_unban: Vec<&SuspiciousClient> = clients
+        let clients = suspicious_clients.lock().expect("unable to acquire mutex");
+        let mut clients_to_unban: Vec<&SuspiciousClient> = clients
             .iter()
             .filter(|c| {
                 c.ban_instant
@@ -196,23 +196,16 @@ fn unban_thread(
 
         log::debug!("There are {} clients to unban", clients_to_unban.len());
 
-        let mut unbanned_clients_idx = Vec::new();
-        for (i, client) in clients_to_unban.iter().enumerate() {
-            match unban_ip(client.addr) {
-                Ok(_) => {
-                    log::info!("{} has been unbanned", client.addr);
-                    unbanned_clients_idx.push(i);
-                }
-                Err(err) => {
-                    log::error!("unban_suspicious_client failed: {err}");
-                    // Keep going anyway
-                }
+        clients_to_unban.retain(|client| match unban_ip(client.addr) {
+            Ok(_) => {
+                log::info!("{} has been unbanned", client.addr);
+                true
             }
-        }
-
-        for idx in unbanned_clients_idx {
-            clients.remove(idx);
-        }
+            Err(err) => {
+                log::error!("unban_suspicious_client failed: {err}");
+                false
+            }
+        });
     }
 }
 
