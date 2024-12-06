@@ -1,8 +1,8 @@
 # nmap-farewell
 
-For more in-depth information, you can read [this article](https://TODO).
-
 This tool aims to demonstrate the capabilities of the `nfnetlink_queue` feature of the Linux kernel.
+
+For more in-depth information, you can read [this article](https://www.synacktiv.com/en/publications/automated-network-security-with-rust-detecting-and-blocking-port-scanners).
 
 Before packets are being dropped by the kernel, they are sent to this tool for further processing.
 If a remote peer tries to reach too many closed ports on your machine,
@@ -36,8 +36,8 @@ To install this tool from source, you must have the stable Rust toolchain instal
 Then run the following commands:
 
 ```
-$ make
-$ sudo make install
+make
+sudo make install
 ```
 
 ## Roadmap
